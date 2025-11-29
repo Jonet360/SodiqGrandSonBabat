@@ -3,447 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sodiq GrandSon - Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Halaman Login Sederhana</title>
     <style>
-        /* --- 1. VARIABEL & RESET --- */
-        :root {
-            --primary-blue: #004685; /* Biru Gelap Komdigi/BUMN */
-            --secondary-blue: #007bff; /* Biru Terang untuk Aksen */
-            --light-bg: #f4f6f9; /* Background Abu sangat muda */
-            --white: #ffffff;
-            --text-dark: #333333;
-            --text-muted: #6c757d;
-            --shadow: 0 4px 15px rgba(0,0,0,0.05);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* --- BAGIAN CSS (TAMPILAN) --- */
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            overflow-x: hidden;
-        }
-
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-
-        /* --- 2. HEADER & NAVBAR --- */
-        header {
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            position: sticky; /* Menu menempel saat scroll */
-            top: 0;
-            z-index: 1000;
-            border-bottom: 3px solid var(--primary-blue);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .navbar-wrapper {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
+            justify-content: center; /* Menengahkan secara horizontal */
+            align-items: center;     /* Menengahkan secara vertikal */
+            height: 100vh;           /* Tinggi layar penuh */
+            margin: 0;
         }
 
-        /* Logo Area */
-        .brand {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .brand i { font-size: 24px; }
-
-        /* Menu Utama */
-        .menu {
-            display: flex;
-            gap: 5px;
+        .login-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
         }
 
-        .menu > li > a {
-            padding: 10px 15px;
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box; /* Agar padding tidak melebarkan input */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #pesan {
+            margin-top: 15px;
             font-size: 14px;
-            font-weight: 500;
-            color: var(--text-dark);
-            border-radius: 5px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .menu > li > a:hover {
-            color: var(--primary-blue);
-            background-color: #eef5ff;
-        }
-
-        .menu > li > a.active {
-            background-color: var(--primary-blue);
-            color: var(--white);
-        }
-
-        /* --- 3. DROPDOWN (SUB MENU) --- */
-        .has-sub { position: relative; }
-        
-        /* Level 2 */
-        .sub-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: var(--white);
-            min-width: 220px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: var(--transition);
-            padding: 10px 0;
-        }
-
-        /* Tampilkan Level 2 saat hover */
-        .has-sub:hover > .sub-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .sub-menu li a {
-            padding: 10px 20px;
-            display: block;
-            font-size: 13px;
-            color: var(--text-dark);
-            transition: var(--transition);
-            display: flex;
-            justify-content: space-between; /* Untuk panah kanan */
-            align-items: center;
-        }
-
-        .sub-menu li a:hover {
-            background-color: #f0f7ff;
-            color: var(--primary-blue);
-            padding-left: 25px; /* Efek geser sedikit */
-        }
-
-        /* Level 3 (Sub-Sub) */
-        .sub-sub {
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background: var(--white);
-            min-width: 220px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(10px);
-            transition: var(--transition);
-            margin-left: 10px; /* Jarak sedikit dari induk */
-            padding: 10px 0;
-        }
-
-        /* Tampilkan Level 3 */
-        .sub-menu li.has-sub:hover > .sub-sub {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0);
-        }
-
-        /* Ikon Panah Kecil */
-        .arrow-down { font-size: 10px; margin-left: 4px; }
-        .arrow-right { font-size: 10px; opacity: 0.5; }
-
-        /* --- 4. HERO SECTION (Banner) --- */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #0072c6 100%);
-            color: var(--white);
-            padding: 60px 0;
-            text-align: center;
-            margin-bottom: 40px;
-            border-radius: 0 0 30px 30px; /* Lengkungan modern di bawah */
-        }
-
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.1rem; opacity: 0.9; }
-
-        /* --- 5. DASHBOARD GRID (Isi Halaman) --- */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            border: 1px solid #eee;
-            transition: var(--transition);
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--secondary-blue);
-            box-shadow: 0 10px 25px rgba(0, 85, 150, 0.15);
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            background: #eef5ff;
-            color: var(--primary-blue);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 15px auto;
-        }
-
-        .card h3 { font-size: 18px; margin-bottom: 10px; color: var(--text-dark); }
-        .card p { font-size: 13px; color: var(--text-muted); }
-
-        /* --- 6. HAMBURGER MENU (Mobile) --- */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            font-size: 24px;
-            color: var(--primary-blue);
-        }
-
-        /* --- RESPONSIVE CSS --- */
-        @media (max-width: 992px) {
-            .hamburger { display: block; }
-
-            .menu {
-                position: fixed;
-                top: 70px; /* Tinggi header */
-                left: -100%;
-                width: 100%;
-                height: calc(100vh - 70px);
-                background: var(--white);
-                flex-direction: column;
-                padding: 20px;
-                transition: 0.4s;
-                overflow-y: auto; /* Agar bisa discroll di HP */
-                gap: 0;
-            }
-
-            .menu.active { left: 0; }
-
-            .menu > li { width: 100%; border-bottom: 1px solid #eee; }
-            .menu > li > a { padding: 15px; justify-content: space-between; }
-
-            /* Reset posisi dropdown untuk mobile */
-            .sub-menu, .sub-sub {
-                position: static;
-                visibility: visible;
-                opacity: 1;
-                transform: none;
-                box-shadow: none;
-                min-width: 100%;
-                background: #f9f9f9;
-                padding-left: 20px; /* Indentasi */
-                display: none; /* Hidden by default, toggled via JS */
-                margin: 0;
-            }
-            
-            .sub-sub { background: #eee; padding-left: 30px; }
-            
-            /* Tampilkan submenu saat class active ditambahkan via JS */
-            .sub-menu.open { display: block; }
-            .sub-sub.open { display: block; }
-
-            /* Matikan hover effect desktop di mobile */
-            .has-sub:hover > .sub-menu { display: none; } 
-            .sub-menu.open { display: block !important; }
-
-            .hero { padding: 40px 20px; border-radius: 0 0 20px 20px; }
-            .hero h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="container navbar-wrapper">
-        <a href="#" class="brand">
-            <i class="fa-solid fa-building-columns"></i> Sodiq GrandSon
-        </a>
+    <div class="login-box">
+        <h2>Login</h2>
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Masukkan Username">
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Masukkan Password">
+        </div>
+        <button onclick="validasiLogin()">Masuk</button>
         
-        <div class="hamburger" onclick="toggleMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-
-        <ul class="menu" id="nav-menu">
-            <li><a href="#" class="active"><i class="fa-solid fa-house"></i> HOME</a></li>
-
-            <li class="has-sub">
-                <a href="javascript:void(0)" onclick="toggleSub(this)">KEUANGAN <i class="fa-solid fa-chevron-down arrow-down"></i></a>
-                <ul class="sub-menu">
-                    <li><a href="#">Akunting</a></li>
-                    <li><a href="https://docs.google.com/spreadsheets/d/1tEa6ZTxRukCzc7h3NhNR9udMDgr_idJM/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Arus Kas</a></li>
-                    <li><a href="#">Backup Transaksi</a></li>
-                    <li><a href="#">Backup Nota User</a></li>
-                    <li><a href="#">Cost Control</a></li>
-                    <li><a href="#">Admin Keuangan</a></li>
-                    <li><a href="#">Income Total</a></li>
-                </ul>
-            </li>
-
-            <li class="has-sub">
-                <a href="javascript:void(0)" onclick="toggleSub(this)">PROJECT <i class="fa-solid fa-chevron-down arrow-down"></i></a>
-                <ul class="sub-menu">
-                    <li class="has-sub">
-                        <a href="javascript:void(0)" onclick="toggleSub(this)">Laporan Mingguan <i class="fa-solid fa-chevron-right arrow-right"></i></a>
-                        <ul class="sub-menu sub-sub">
-                            <li><a href="#">Progres Rumah</a></li>
-                            <li><a href="#">Progres Saluran</a></li>
-                            <li><a href="#">Progres RTH</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-sub">
-                        <a href="javascript:void(0)" onclick="toggleSub(this)">Dokumentasi Progres <i class="fa-solid fa-chevron-right arrow-right"></i></a>
-                        <ul class="sub-menu sub-sub">
-                            <li><a href="#">P58</a></li>
-                        </ul>
-                    </li>
-                    <li class="has-sub">
-                        <a href="javascript:void(0)" onclick="toggleSub(this)">Tagihan <i class="fa-solid fa-chevron-right arrow-right"></i></a>
-                        <ul class="sub-menu sub-sub">
-                            <li><a href="https://docs.google.com/spreadsheets/d/13LVAGyVUc4tbjgNupHtgzai2E4cz2pLN/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Data Urug</a></li>
-                            <li><a href="#">Toko 2</a></li>
-                            <li><a href="#">Toko 3</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-
-            <li class="has-sub">
-                <a href="javascript:void(0)" onclick="toggleSub(this)">MARKETING <i class="fa-solid fa-chevron-down arrow-down"></i></a>
-                <ul class="sub-menu">
-                    <li><a href="#">Web Marketing</a></li>
-                    <li><a href="https://docs.google.com/spreadsheets/d/1rDUzeUSvH38k7L4jMwXgreiBcQjfJkGl/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Berkas KPR</a></li>
-                    <li><a href="#">Site Plan Plotting</a></li>
-                    <li><a href="#">Data Visor</a></li>
-                </ul>
-            </li>
-
-            <li class="has-sub">
-                <a href="javascript:void(0)" onclick="toggleSub(this)">GUDANG <i class="fa-solid fa-chevron-down arrow-down"></i></a>
-                <ul class="sub-menu">
-                    <li><a href="#">Indul & Projek</a></li>
-                </ul>
-            </li>
-
-            <li><a href="#">EXPERIENCE</a></li>
-            <li><a href="#">CONTACT</a></li>
-        </ul>
+        <p id="pesan"></p>
     </div>
-</header>
 
-<section class="hero">
-    <div class="container">
-        <h1>Sistem Informasi Manajemen</h1>
-        <p>Terintegrasi, Transparan, dan Akuntabel untuk Sodiq GrandSon</p>
-    </div>
-</section>
+    <script>
+        function validasiLogin() {
+            // 1. Tentukan Username dan Password yang benar di sini
+            const userBenar = "admin";
+            const passBenar = "akbar999";
 
-<div class="container">
-    <div class="grid-container">
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-coins"></i></div>
-            <h3>Keuangan</h3>
-            <p>Akses laporan akunting, arus kas, dan backup transaksi.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-helmet-safety"></i></div>
-            <h3>Project Control</h3>
-            <p>Monitoring progres rumah, saluran, dan laporan mingguan.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-bullhorn"></i></div>
-            <h3>Marketing</h3>
-            <p>Data plotting site plan, berkas KPR, dan performa web.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon"><i class="fa-solid fa-warehouse"></i></div>
-            <h3>Gudang</h3>
-            <p>Manajemen stok indul dan inventaris proyek lapangan.</p>
-        </div>
-    </div>
-</div>
+            // 2. Ambil nilai yang diketik pengguna di form
+            const inputUser = document.getElementById('username').value;
+            const inputPass = document.getElementById('password').value;
+            const pesanLabel = document.getElementById('pesan');
 
-<script>
-    // Toggle Menu Utama di Mobile
-    function toggleMenu() {
-        const menu = document.getElementById('nav-menu');
-        const icon = document.querySelector('.hamburger i');
-        
-        menu.classList.toggle('active');
-        
-        // Ubah icon hamburger jadi X saat aktif
-        if (menu.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-xmark');
-        } else {
-            icon.classList.remove('fa-xmark');
-            icon.classList.add('fa-bars');
-        }
-    }
-
-    // Toggle Dropdown (Submenu) di Mobile
-    function toggleSub(element) {
-        // Hanya jalankan jika di layar kecil (Mobile)
-        if (window.innerWidth <= 992) {
-            // Cari elemen <ul> (submenu) tepat setelah link yang diklik
-            const subMenu = element.nextElementSibling;
-            if (subMenu) {
-                // Toggle class 'open' untuk menampilkan/menyembunyikan
-                subMenu.classList.toggle('open');
+            // 3. Logika pengecekan (IF / ELSE)
+            if (inputUser === userBenar && inputPass === passBenar) {
+                // Jika Benar
+                pesanLabel.style.color = "green";
+                pesanLabel.innerText = "Login Berhasil! Selamat datang.";
                 
-                // Ubah arah panah
-                const arrow = element.querySelector('i');
-                if (subMenu.classList.contains('open')) {
-                    arrow.classList.remove('fa-chevron-down', 'fa-chevron-right');
-                    arrow.classList.add('fa-chevron-up');
-                } else {
-                    // Reset icon based on context (level 2 or 3)
-                    if(arrow.classList.contains('fa-chevron-up')){
-                         arrow.classList.remove('fa-chevron-up');
-                         // Cek apakah ini level 2 atau 3 untuk ikon yang tepat
-                         if(element.parentElement.parentElement.classList.contains('menu')) {
-                             arrow.classList.add('fa-chevron-down');
-                         } else {
-                             arrow.classList.add('fa-chevron-right');
-                         }
-                    }
-                }
+                // Opsional: Redirect ke halaman lain
+                window.location.href = "main.html"; 
+            } else {
+                // Jika Salah
+                pesanLabel.style.color = "red";
+                pesanLabel.innerText = "Username atau Password salah!";
             }
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
