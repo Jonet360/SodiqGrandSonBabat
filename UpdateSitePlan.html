@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sodiq GrandSon - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="icon.png">
+    <style>
+        /* --- 1. VARIABEL & RESET --- */
+        :root {
+            --primary-blue: #004685; /* Biru Gelap Komdigi/BUMN */
+            --secondary-blue: #007bff; /* Biru Terang untuk Aksen */
+            --light-bg: #f4f6f9; /* Background Abu sangat muda */
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-muted: #6c757d;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- 2. HEADER & NAVBAR --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        /* Logo Area */
+        .brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .brand i { font-size: 24px; }
+
+        /* Menu Utama */
+        .menu {
+            display: flex;
+            gap: 5px;
+        }
+
+        .menu > li > a {
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            border-radius: 5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .menu > li > a:hover {
+            color: var(--primary-blue);
+            background-color: #eef5ff;
+        }
+
+        .menu > li > a.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* --- 3. DROPDOWN (SUB MENU) --- */
+        .has-sub { position: relative; }
+        
+        /* Level 2 */
+        .sub-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 10px 0;
+        }
+
+        .has-sub:hover > .sub-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .sub-menu li a {
+            padding: 10px 20px;
+            display: block;
+            font-size: 13px;
+            color: var(--text-dark);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sub-menu li a:hover {
+            background-color: #f0f7ff;
+            color: var(--primary-blue);
+            padding-left: 25px;
+        }
+
+        /* Level 3 (Sub-Sub) */
+        .sub-sub {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: var(--white);
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+            transition: var(--transition);
+            margin-left: 10px;
+            padding: 10px 0;
+        }
+
+        .sub-menu li.has-sub:hover > .sub-sub {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .arrow-down { font-size: 10px; margin-left: 4px; }
+        .arrow-right { font-size: 10px; opacity: 0.5; }
+
+        /* --- 4. HERO SECTION (Banner) --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #0072c6 100%);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+
+        /* --- 5. DASHBOARD GRID (Isi Halaman) --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid #eee;
+            transition: var(--transition);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary-blue);
+            box-shadow: 0 10px 25px rgba(0, 85, 150, 0.15);
+        }
+
+        .card h3 { font-size: 18px; margin-bottom: 10px; color: var(--text-dark); }
+        .card p { font-size: 13px; color: var(--text-muted); }
+
+        /* --- PERBAIKAN CSS GAMBAR --- */
+        .img {
+            width: 100%;        /* Memastikan wadah gambar memenuhi kartu */
+            display: block;
+            overflow: hidden;   /* Mencegah gambar keluar batas */
+            border-radius: 8px; /* Sudut melengkung */
+            margin-bottom: 15px; /* Jarak ke teks di bawahnya (jika ada) */
+        }
+
+        .img img {
+            width: 100%;       /* Gambar dipaksa mengikuti lebar wadah */
+            height: auto;      /* Tinggi menyesuaikan proporsi */
+            display: block;    /* Menghilangkan gap di bawah gambar */
+            object-fit: cover; /* Gambar tetap rapi */
+        }
+
+        /* --- 6. HAMBURGER MENU (Mobile) --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--primary-blue);
+        }
+
+        /* --- RESPONSIVE CSS --- */
+        @media (max-width: 992px) {
+            .hamburger { display: block; }
+
+            .menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                transition: 0.4s;
+                overflow-y: auto;
+                gap: 0;
+            }
+
+            .menu.active { left: 0; }
+
+            .menu > li { width: 100%; border-bottom: 1px solid #eee; }
+            .menu > li > a { padding: 15px; justify-content: space-between; }
+
+            .sub-menu, .sub-sub {
+                position: static;
+                visibility: visible;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+                min-width: 100%;
+                background: #f9f9f9;
+                padding-left: 20px;
+                display: none;
+                margin: 0;
+            }
+            
+            .sub-sub { background: #eee; padding-left: 30px; }
+            
+            .sub-menu.open { display: block; }
+            .sub-sub.open { display: block; }
+
+            .has-sub:hover > .sub-menu { display: none; } 
+            .sub-menu.open { display: block !important; }
+
+            .hero { padding: 40px 20px; border-radius: 0 0 20px 20px; }
+            .hero h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container navbar-wrapper">
+        <a href="main.html" class="brand">
+            <i class="fa-solid fa-building-columns"></i> Sodiq GrandSon
+        </a>
+        
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <ul class="menu" id="nav-menu">
+            <li><a href="main.html" class="active"><i class="fa-solid fa-house"></i> HOME</a></li>
+
+            <li class="has-sub">
+                <a href="javascript:void(0)" onclick="toggleSub(this)">KEUANGAN <i class="fa-solid fa-chevron-down arrow-down"></i></a>
+                <ul class="sub-menu">
+                    <li><a href="#">Akunting</a></li>
+                    <li><a href="https://docs.google.com/spreadsheets/d/1tEa6ZTxRukCzc7h3NhNR9udMDgr_idJM/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Arus Kas</a></li>
+                    <li><a href="#">Backup Transaksi</a></li>
+                    <li><a href="https://docs.google.com/spreadsheets/d/1dmTn1rqeo0KELe7r_6giPul6jYBrxMf2ZHXKlBRP4nU/edit?usp=drive_link">Backup Nota User</a></li>
+                    <li><a href="#">Cost Control</a></li>
+                    <li><a href="#">Admin Keuangan</a></li>
+                    <li><a href="#">Income Total</a></li>
+                </ul>
+            </li>
+
+            <li class="has-sub">
+                <a href="javascript:void(0)" onclick="toggleSub(this)">PROJECT <i class="fa-solid fa-chevron-down arrow-down"></i></a>
+                <ul class="sub-menu">
+                    <li class="has-sub">
+                        <a href="javascript:void(0)" onclick="toggleSub(this)">Laporan Mingguan <i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                        <ul class="sub-menu sub-sub">
+                            <li><a href="#">Progres Rumah</a></li>
+                            <li><a href="#">Progres Saluran</a></li>
+                            <li><a href="#">Progres RTH</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:void(0)" onclick="toggleSub(this)">Dokumentasi Progres <i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                        <ul class="sub-menu sub-sub">
+                            <li><a href="#">P58</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a href="javascript:void(0)" onclick="toggleSub(this)">Tagihan <i class="fa-solid fa-chevron-right arrow-right"></i></a>
+                        <ul class="sub-menu sub-sub">
+                            <li><a href="https://docs.google.com/spreadsheets/d/13LVAGyVUc4tbjgNupHtgzai2E4cz2pLN/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Data Urug</a></li>
+                            <li><a href="#">Toko 2</a></li>
+                            <li><a href="#">Toko 3</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="has-sub">
+                <a href="javascript:void(0)" onclick="toggleSub(this)">MARKETING <i class="fa-solid fa-chevron-down arrow-down"></i></a>
+                <ul class="sub-menu">
+                    <li><a href="#">Web Marketing</a></li>
+                    <li><a href="https://docs.google.com/spreadsheets/d/1rDUzeUSvH38k7L4jMwXgreiBcQjfJkGl/edit?usp=drive_link&ouid=115538875971759995931&rtpof=true&sd=true">Berkas User</a></li>
+                    <li><a href="#">Site Plan Plotting</a></li>
+                    <li><a href="#">Data Visor</a></li>
+                </ul>
+            </li>
+
+            <li class="has-sub">
+                <a href="javascript:void(0)" onclick="toggleSub(this)">GUDANG <i class="fa-solid fa-chevron-down arrow-down"></i></a>
+                <ul class="sub-menu">
+                    <li><a href="#">Indul & Projek</a></li>
+                </ul>
+            </li>
+
+            <li><a href="#">EXPERIENCE</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Update Site Plan</h1>
+        <p>Update Site plan penjualan</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="grid-container">
+        <div class="card">
+            <div class="img">
+                <img src="1 TEXT.jpg" alt="Detail Perumahan">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle Menu Utama di Mobile
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        const icon = document.querySelector('.hamburger i');
+        
+        menu.classList.toggle('active');
+        
+        if (menu.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        } else {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    }
+
+    // Toggle Dropdown (Submenu) di Mobile
+    function toggleSub(element) {
+        if (window.innerWidth <= 992) {
+            const subMenu = element.nextElementSibling;
+            if (subMenu) {
+                subMenu.classList.toggle('open');
+                
+                const arrow = element.querySelector('i');
+                if (subMenu.classList.contains('open')) {
+                    arrow.classList.remove('fa-chevron-down', 'fa-chevron-right');
+                    arrow.classList.add('fa-chevron-up');
+                } else {
+                    if(arrow.classList.contains('fa-chevron-up')){
+                         arrow.classList.remove('fa-chevron-up');
+                         if(element.parentElement.parentElement.classList.contains('menu')) {
+                             arrow.classList.add('fa-chevron-down');
+                         } else {
+                             arrow.classList.add('fa-chevron-right');
+                         }
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
